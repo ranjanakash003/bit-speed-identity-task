@@ -2,12 +2,56 @@
 
 An identity resolution API built for Bitespeed. This service acts as a detective, linking disparate customer orders made with different contact details (emails and phone numbers) to the same underlying individual. 
 
+## 🌍 Live Deployment
+The API is fully deployed and hosted on Render. You can interact with the live endpoint directly using Postman or cURL.
+
+* Base URL: `https://bit-speed-identity-task.onrender.com`
+* Live Endpoint: `POST /identify`
+
+*Note: The deployment is on a free Render tier. If the API hasn't been called in a while, the first request might take 30-50 seconds to wake the server up.*
+
+---
+
 ## 🚀 Tech Stack
 * Runtime: Node.js
 * Framework: Express.js
 * Language: TypeScript
 * ORM: Prisma
 * Database: PostgreSQL (Neon)
+
+## 📖 API Documentation
+
+### Endpoint: `POST /identify`
+Identifies and links a customer based on their email and/or phone number.
+
+Live Request Example (cURL):
+\`\`\`bash
+curl -X POST https://bit-speed-identity-task.onrender.com/identify \
+-H "Content-Type: application/json" \
+-d '{"email": "mcfly@bates.com", "phoneNumber": "123456"}'
+\`\`\`
+
+Request Body (JSON):
+\`\`\`json
+{
+  "email": "mcfly@bates.com",
+  "phoneNumber": "123456"
+}
+\`\`\`
+
+Successful Response (200 OK):
+\`\`\`json
+{
+  "contact": {
+    "primaryContactId": 1,
+    "emails": ["lorraine@bates.com", "mcfly@bates.com"],
+    "phoneNumbers": ["123456"],
+    "secondaryContactIds": [2]
+  }
+}
+\`\`\`
+
+---
 
 ## ⚙️ Local Setup Instructions
 
@@ -42,28 +86,3 @@ Run the application in development mode:
 npm run dev
 \`\`\`
 The server will start running on `http://localhost:3000`.
-
-## 📖 API Documentation
-
-### Endpoint: `POST /identify`
-Identifies and links a customer based on their email and/or phone number.
-
-Request Body (JSON):
-\`\`\`json
-{
-  "email": "mcfly@bates.com",
-  "phoneNumber": "123456"
-}
-\`\`\`
-
-Successful Response (200 OK):
-\`\`\`json
-{
-  "contact": {
-    "primaryContactId": 1,
-    "emails": ["lorraine@bates.com", "mcfly@bates.com"],
-    "phoneNumbers": ["123456"],
-    "secondaryContactIds": [2]
-  }
-}
-\`\`\`
